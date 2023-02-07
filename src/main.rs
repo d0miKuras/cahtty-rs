@@ -6,7 +6,8 @@ use std::sync::{
 use std::thread::spawn;
 
 fn main() {
-    let listener = TcpListener::bind("0:0:0:0:9091").unwrap();
+    let listener = TcpListener::bind("127:0:0.1:0").unwrap();
     let (sender, receiver): (Sender<String>, Receiver<String>) = channel();
     let senders: Vec<Sender<String>> = Vec::new();
+    let senders_mutex: Mutex<Vec<Sender<String>>> = Mutex::new(senders); // since this will be shared between threads
 }
