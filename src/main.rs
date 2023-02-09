@@ -10,4 +10,5 @@ fn main() {
     let (sender, receiver): (Sender<String>, Receiver<String>) = channel();
     let senders: Vec<Sender<String>> = Vec::new();
     let senders_mutex: Mutex<Vec<Sender<String>>> = Mutex::new(senders); // since this will be shared between threads
+    let senders_mutex_ptr: Arc<Mutex<Vec<Sender<String>>>> = Arc::new(senders_mutex);
 }
