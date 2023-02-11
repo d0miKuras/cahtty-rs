@@ -1,3 +1,4 @@
+mod request_handlers;
 use std::net::TcpListener;
 use std::sync::{
     mpsc::{channel, Receiver, Sender},
