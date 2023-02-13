@@ -10,8 +10,11 @@ pub fn receive_messages(
     loop {
         let message_result = receiver.recv();
         if let Err(e) = message_result {
-            eprintln!("Error waiting for message result");
+            eprintln!("Error waiting for message result: {e}");
             continue;
         }
+        let guard - senders_mutex_pointer.lock().unwrap();
+        let senders = &*guard;
+        let msg = message_result.unwrap();
     }
 }
