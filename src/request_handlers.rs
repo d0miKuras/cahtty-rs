@@ -16,5 +16,8 @@ pub fn receive_messages(
         let guard - senders_mutex_pointer.lock().unwrap();
         let senders = &*guard;
         let msg = message_result.unwrap();
+        for sender in senders{
+            sender.send(msg.to_string()).expect("Error sending message");
+        }
     }
 }
