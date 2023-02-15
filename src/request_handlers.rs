@@ -13,10 +13,10 @@ pub fn receive_messages(
             eprintln!("Error waiting for message result: {e}");
             continue;
         }
-        let guard - senders_mutex_pointer.lock().unwrap();
+        let guard = senders_mutex_pointer.lock().unwrap();
         let senders = &*guard;
         let msg = message_result.unwrap();
-        for sender in senders{
+        for sender in senders {
             sender.send(msg.to_string()).expect("Error sending message");
         }
     }

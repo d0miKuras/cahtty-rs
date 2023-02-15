@@ -13,4 +13,8 @@ fn main() {
     let senders: Senders = Vec::new();
     let senders_mutex: Mutex<Senders> = Mutex::new(senders); // since this will be shared between threads
     let senders_mutex_ptr: Arc<Mutex<Senders>> = Arc::new(senders_mutex);
+
+    spawn(|| {
+        request_handlers::receive_messages(receiver, senders_mutex_ptr);
+    });
 }
