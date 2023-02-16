@@ -17,4 +17,12 @@ fn main() {
     spawn(|| {
         request_handlers::receive_messages(receiver, senders_mutex_ptr);
     });
+
+    for inc in listener.incoming() {
+        // this'll handle client connection and sending messages
+        if let Err(e) = inc {
+            eprintln!("Client connection failed");
+            continue;
+        }
+    }
 }
