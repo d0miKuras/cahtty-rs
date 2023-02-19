@@ -7,6 +7,8 @@ use std::{
     },
 };
 
+const END_OF_LINE: u8 = 10;
+
 pub fn receive_messages(
     receiver: Receiver<String>,
     senders_mutex_pointer: Arc<Mutex<Vec<Sender<String>>>>,
@@ -35,6 +37,11 @@ pub fn handle_sent_messages(stream: TcpStream, sender: Sender<String>) {
         if request.is_err() {
             eprintln!("Failed to receive a message");
             continue;
+        }
+
+        let message_bytes = message.as_bytes();
+        if (message_bytes.get(0) == Some(&END_OF_LINE)) {
+            break;
         }
     }
 }
