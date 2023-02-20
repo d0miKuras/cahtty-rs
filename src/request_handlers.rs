@@ -28,6 +28,7 @@ pub fn receive_messages(
     }
 }
 
+// this should be run on all client connections.
 pub fn handle_sent_messages(stream: TcpStream, sender: Sender<String>) {
     let mut buffer = BufReader::new(stream);
     let mut message = String::new();
