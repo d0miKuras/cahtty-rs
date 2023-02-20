@@ -40,8 +40,15 @@ pub fn handle_sent_messages(stream: TcpStream, sender: Sender<String>) {
         }
 
         let message_bytes = message.as_bytes();
-        if (message_bytes.get(0) == Some(&END_OF_LINE)) {
+        if message_bytes.get(0) == Some(&END_OF_LINE) {
             break;
         }
+        let sent = sender.send(message.to_string());
+        if sent.is_err() {
+            eprintln!("Failed to send message");
+            break;
+        }
+
+        message.clear(); // reuse the allocated string
     }
 }
