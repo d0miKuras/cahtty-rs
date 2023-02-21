@@ -6,6 +6,8 @@ use std::sync::{
 };
 use std::thread::spawn;
 
+use crate::request_handlers::handle_sent_messages;
+
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:9090").unwrap();
     let (sender, receiver): (Sender<String>, Receiver<String>) = channel();
@@ -24,5 +26,8 @@ fn main() {
             eprintln!("Client connection failed");
             continue;
         }
+        let stream = inc.unwrap();
+        let client_ip = stream.peer_addr().unwrap();
+        println!("New client connected: {}", client_ip);
     }
 }
