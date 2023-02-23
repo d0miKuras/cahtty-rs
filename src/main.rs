@@ -29,5 +29,12 @@ fn main() {
         let stream = inc.unwrap();
         let client_ip = stream.peer_addr().unwrap();
         println!("New client connected: {}", client_ip);
+
+        let stream_copy = stream.try_clone().expect("Cannot clone TCP stream"); // this is passed cuz we're passing the stream to 2 threads
+        let sender_copy = sender.clone(); // one per client
+        spawn(|| {
+            // this thread handles sent messages from the new client
+            handle_sent_messages(stream_copy, sender_copy);
+        });
     }
 }
