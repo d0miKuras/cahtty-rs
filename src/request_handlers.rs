@@ -1,5 +1,5 @@
 use std::{
-    io::{BufRead, BufReader},
+    io::{BufRead, BufReader, Write},
     net::TcpStream,
     sync::{
         mpsc::{Receiver, Sender},
@@ -51,5 +51,18 @@ pub fn handle_sent_messages(stream: TcpStream, sender: Sender<String>) {
         }
 
         message.clear(); // reuse the allocated string
+    }
+}
+
+pub fn send_to_client(mut stream: TcpStream, receiver: Receiver<String>) {
+    loop {
+        let message_result = receiver.recv(); // blocking IO
+        if let Err(e) = message_result {
+            eprintln!("Error listening to messages: {}", e);
+            continue;
+        }
+        let msg = message_result.unwrap();
+        let msg_bytes = msg.as_bytes();
+        stream.write(msg_bytes).unwrap();
     }
 }
