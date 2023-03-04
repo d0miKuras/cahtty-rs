@@ -6,7 +6,7 @@ use std::sync::{
 };
 use std::thread::spawn;
 
-use crate::request_handlers::handle_sent_messages;
+use crate::request_handlers::{handle_sent_messages, send_to_client};
 
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:9090").unwrap();
@@ -35,6 +35,11 @@ fn main() {
         spawn(|| {
             // this thread handles sent messages from the new client
             handle_sent_messages(stream_copy, sender_copy);
+        });
+
+        let (client_sender, client_receiver): (Sender<String>, Receiver<String>) = channel(); // sender/receiver pair per client
+        spawn(|| {
+            send_to_client(stream, client_receiver);
         });
     }
 }
