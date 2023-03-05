@@ -41,5 +41,8 @@ fn main() {
         spawn(|| {
             send_to_client(stream, client_receiver);
         });
+        let mut guard = senders_mutex_ptr.lock().unwrap();
+        let mut senders = &mut *guard;
+        senders.push(client_sender);
     }
 }
