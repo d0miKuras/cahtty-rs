@@ -24,7 +24,7 @@ fn main() {
     for inc in listener.incoming() {
         // this'll handle client connection and sending messages
         if let Err(e) = inc {
-            eprintln!("Client connection failed");
+            eprintln!("Client connection failed: {}", e);
             continue;
         }
         let stream = inc.unwrap();
