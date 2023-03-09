@@ -43,7 +43,7 @@ fn main() {
             send_to_client(stream, client_receiver);
         });
         let mut guard = senders_mutex_ptr_copy.lock().unwrap();
-        let mut senders = &mut *guard;
+        let senders = &mut *guard;
         senders.push(client_sender);
     }
 }
