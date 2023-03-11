@@ -33,8 +33,8 @@ pub fn handle_sent_messages(stream: TcpStream, sender: Sender<String>) {
     let mut buffer = BufReader::new(stream);
     let mut message = String::new();
 
-    let request = buffer.read_line(&mut message);
     loop {
+        let request = buffer.read_line(&mut message);
         if request.is_err() {
             eprintln!("Failed to receive a message");
             continue;
