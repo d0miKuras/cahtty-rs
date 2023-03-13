@@ -1,1 +1,2 @@
-Pretty sure this leaks memory atm
+cargo run
+nc localhost 9090
